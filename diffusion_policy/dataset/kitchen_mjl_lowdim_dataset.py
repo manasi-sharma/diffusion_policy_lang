@@ -63,7 +63,7 @@ class KitchenMjlLowdimDataset(BaseLowdimDataset):
                 episode = {
                     'obs': obs,
                     'action': data['ctrl'].astype(np.float32),
-                    'lang': np.cumsum(np.repeat(np.array([[1, 2, 3, 4, 5]]), obs.shape[0], axis=0), axis=0) #np.zeros((obs.shape[0], 50)) #lang
+                    'lang': np.array([[1, 2, 3, 4, 5]]) #np.cumsum(np.repeat(np.array([[1, 2, 3, 4, 5]]), obs.shape[0], axis=0), axis=0) #lang
                 }
                 #import pdb;pdb.set_trace()
                 self.replay_buffer.add_episode(episode)
