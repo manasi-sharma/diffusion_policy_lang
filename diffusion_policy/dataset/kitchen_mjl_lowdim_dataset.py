@@ -11,6 +11,8 @@ from diffusion_policy.model.common.normalizer import LinearNormalizer, SingleFie
 from diffusion_policy.dataset.base_dataset import BaseLowdimDataset
 from diffusion_policy.env.kitchen.kitchen_util import parse_mjl_logs
 
+import re
+
 class KitchenMjlLowdimDataset(BaseLowdimDataset):
     def __init__(self,
             dataset_dir,
@@ -49,11 +51,20 @@ class KitchenMjlLowdimDataset(BaseLowdimDataset):
                     noise = robot_noise_ratio * robot_pos_noise_amp * rng.uniform(
                         low=-1., high=1., size=(obs.shape[0], 30))
                     obs[:,:30] += noise
+                
+                # loading in language
+                found_1 = re.search('friday_(.+?)/', data['logName'])
+                found_2 = re.search('postcorl_(.+?)/', data['logName'])
+                if found_1:
+                    lang = found_1.group(1)
+                if found_2:
+                    lang = found_2.group(1)
+
                 episode = {
                     'obs': obs,
-                    'action': data['ctrl'].astype(np.float32)
+                    'action': data['ctrl'].astype(np.float32),
+                    'lang': lang
                 }
-                import pdb;pdb.set_trace()
                 self.replay_buffer.add_episode(episode)
             except Exception as e:
                 print(i, e)
