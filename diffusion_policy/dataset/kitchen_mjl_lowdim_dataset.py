@@ -65,6 +65,7 @@ class KitchenMjlLowdimDataset(BaseLowdimDataset):
                     'action': data['ctrl'].astype(np.float32),
                     'lang': lang
                 }
+                import pdb;pdb.set_trace()
                 self.replay_buffer.add_episode(episode)
             except Exception as e:
                 print(i, e)
@@ -74,15 +75,13 @@ class KitchenMjlLowdimDataset(BaseLowdimDataset):
             val_ratio=val_ratio,
             seed=seed)
         train_mask = ~val_mask
-        
-        import pdb;pdb.set_trace()
+
         self.sampler = SequenceSampler(
             replay_buffer=self.replay_buffer, 
             sequence_length=horizon,
             pad_before=pad_before, 
             pad_after=pad_after,
             episode_mask=train_mask)
-        import pdb;pdb.set_trace()
 
         self.train_mask = train_mask
         self.horizon = horizon
