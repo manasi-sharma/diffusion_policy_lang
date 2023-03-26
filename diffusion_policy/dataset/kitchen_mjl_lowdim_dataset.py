@@ -53,6 +53,7 @@ class KitchenMjlLowdimDataset(BaseLowdimDataset):
                     'obs': obs,
                     'action': data['ctrl'].astype(np.float32)
                 }
+                import pdb;pdb.set_trace()
                 self.replay_buffer.add_episode(episode)
             except Exception as e:
                 print(i, e)
