@@ -63,9 +63,9 @@ class KitchenMjlLowdimDataset(BaseLowdimDataset):
                 episode = {
                     'obs': obs,
                     'action': data['ctrl'].astype(np.float32),
-                    'lang': lang
+                    'lang': np.zeros((obs.shape[0], 50)) #lang
                 }
-                import pdb;pdb.set_trace()
+                #import pdb;pdb.set_trace()
                 self.replay_buffer.add_episode(episode)
             except Exception as e:
                 print(i, e)
